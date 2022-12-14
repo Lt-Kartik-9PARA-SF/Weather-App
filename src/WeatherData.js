@@ -15,7 +15,7 @@ export default function WeatherData() {
         let data = await dataJson.json();
         // let date = new Date(data.sys.sunrise);
         setWeather(data);
-        
+
         console.log(data);
         console.log(weather);
     }
@@ -30,7 +30,7 @@ export default function WeatherData() {
     }
 
     const btnClick = () => {
-        if(input.length == 0){
+        if (input.length == 0) {
             alert("Please Enter a City Name First");
             return;
         }
@@ -46,7 +46,7 @@ export default function WeatherData() {
         let month = months[dateArg.getMonth()];
         let date = dateArg.getDate();
         let day = days[dateArg.getDay()];
-        // console.log(year+" "+date+" "+day+" "+month);
+
         return `${date} ${month} (${day}) , ${year}`
     }
 
@@ -54,12 +54,12 @@ export default function WeatherData() {
     const getTime = (todayDate) => {
         let hour = addZero(todayDate.getHours());
         let minute = addZero(todayDate.getMinutes());
-        if(hour > 12){
+        if (hour > 12) {
             hour = hour - 12;
-            minute = minute +" PM"
+            minute = minute + " PM"
         }
-        else{
-            minute = minute+" AM"
+        else {
+            minute = minute + " AM"
         }
         return `${hour}:${minute}`;
     }
@@ -89,7 +89,7 @@ export default function WeatherData() {
             return 'fas fa-cloud-sun';
         }
     }
-    
+
 
 
 
@@ -98,41 +98,41 @@ export default function WeatherData() {
     return (
         <div className='main'>
 
-        
-        < div className='card'>
 
-            <div className='header'>
-                <h2>Weather</h2>
-                <input className='input-box' type='text' placeholder='Enter City Name' value={input} onChange={handleChange}></input>
-                <button type='button' onClick={btnClick}>Submit</button>
+            < div className='card'>
+
+                <div className='header' title="Weather App lets you Access Current Weather Conditions of your Chosen City">
+                    <h2>Weather</h2>
+                    <input className='input-box' title="Enter a City Name to Know Current Weather Conditions" type='text' placeholder='Enter City Name' value={input} onChange={handleChange}></input>
+                    <button type='button' title="Click to Submit" onClick={btnClick}>Submit</button>
+                </div>
+
+                {
+                    weather.x == 'default' ? <div> Enter a city name </div> : weather.cod === 200 ?
+                        <div className='details' title= 'Current Weather Conditions' >
+                            <div className="location-deatils">
+                                <div className="city" id="city">{weather.name}, {weather.sys.country}</div>
+                                <div className="date" id="date"> {dateManage(todayDate)}</div>
+                            </div>
+                            <div className="weather-status">
+                                <div className="temp" id="temp">{Math.round(weather.main.temp)}&deg;C </div>
+                                <div className="weather" id="weather"> {weather.weather[0].main} <i className={getIconClass(weather.weather[0].main)}></i>  </div>
+                                <div className="min-max" id="min-max">{Math.floor(weather.main.temp_min)}&deg;C (min) / {Math.ceil(weather.main.temp_max)}&deg;C (max) </div>
+
+                                <div id="updated_on">Updated as of {getTime(todayDate)}</div>
+                            </div>
+
+                            <div className="day-details">
+                                <div className="basic">Feels like {Math.round(weather.main.feels_like)}&deg;C | Humidity {weather.main.humidity}%  <br></br> Pressure {weather.main.pressure} mb | Wind {weather.wind.speed} KMPH</div>
+                            </div>
+
+
+                        </div>
+
+                        : <div className='error'> <br></br>{weather.message.toUpperCase()} <br></br> Some Error Occured <br></br> Enter Correct City Name</div>
+                }
             </div>
 
-            {
-                weather.x == 'default' ? <div> Enter a city name </div> : weather.cod === 200 ?
-                    <div className='details'>
-                        <div className="location-deatils">
-                            <div className="city" id="city">{weather.name}, {weather.sys.country}</div>
-                            <div className="date" id="date"> {dateManage(todayDate)}</div>
-                        </div>
-                        <div className="weather-status">
-                            <div className="temp" id="temp">{Math.round(weather.main.temp)}&deg;C </div>
-                            <div className="weather" id="weather"> {weather.weather[0].main} <i className={getIconClass(weather.weather[0].main)}></i>  </div>
-                            <div className="min-max" id="min-max">{Math.floor(weather.main.temp_min)}&deg;C (min) / {Math.ceil(weather.main.temp_max)}&deg;C (max) </div>
-                          
-                            <div id="updated_on">Updated as of {getTime(todayDate)}</div>
-                        </div>
-                
-                        <div className="day-details">
-                            <div className="basic">Feels like {weather.main.feels_like}&deg;C | Humidity {weather.main.humidity}%  <br></br> Pressure {weather.main.pressure} mb | Wind {weather.wind.speed} KMPH</div>
-                        </div>
-
-
-                    </div>
-
-                    : <div className='error'> <br></br>{weather.message.toUpperCase()} <br></br> Some Error Occured <br></br> Enter Correct City Name</div>
-            }
         </div>
-
-</div>
     );
 }

@@ -34,6 +34,13 @@ export default function WeatherData() {
             alert("Please Enter a City Name First");
             return;
         }
+        if( Number.isInteger(parseInt(input)) === true){
+            alert("Numeric Values not Allowed ")
+            return;
+        }
+        
+       // console.log( Number.isInteger(parseInt(input)) );
+       
         setCity(input);
     }
 
